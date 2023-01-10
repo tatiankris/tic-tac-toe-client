@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import s from './App.module.css';
 import { Box } from './Box';
-
+import io from 'socket.io-client';
+const socket = io('http://localhost:5000');
 
 const combinations = [
     [0, 1, 2],
@@ -16,19 +17,33 @@ const combinations = [
 ];
 
 function App() {
+
+    const [myTurn, setMyTurn] = useState(true);
+    const [xo, setXO] = useState('X');
+    const [player, setPlayer] = useState('');
+    const [hasOpponent, setHasOpponent] = useState(false);
+    const [share, setShare] = useState(false);
+    const [turnData, setTurnData] = useState<boolean | any>(false);
+
   const [game, setGame] = useState(Array(9).fill(''));
   const [isX, setIsX] = useState(false);
   const [turnNumber, setTurnNumber] = useState(0);
   const [winner, setWinner] = useState(false);
 
+  // const turn = (index: number) => {
+  //   let g = [...game];
+  //   if (!g[index] && !winner) {
+  //     g[index] = isX ? 'X' : 'O';
+  //     setGame(g);
+  //     setIsX(!isX);
+  //     setTurnNumber(turnNumber + 1);
+  //   }
+  // };
+
   const turn = (index: number) => {
-    let g = [...game];
-    if (!g[index] && !winner) {
-      g[index] = isX ? 'X' : 'O';
-      setGame(g);
-      setIsX(!isX);
-      setTurnNumber(turnNumber + 1);
-    }
+      if (!game[index] && !winner && myTurn && hasOpponent) {
+          socket.emit('reqTurn', JSON.stringify({ index, value: xo, room }));
+      }
   };
 
   const restart = () => {
@@ -45,6 +60,23 @@ function App() {
       }
     });
   }, [game]);
+
+    useEffect(() => {
+        socket.on('playerTurn', (json) => {
+            setTurnData(json);
+        });
+
+        socket.on('restart', () => {
+            restart();
+        });
+
+        socket.on('opponent_joined', () => {
+            setHasOpponent(true);
+            setShare(false);
+        });
+    }, []);
+
+
 
   return (
       <div className={s.container}>
