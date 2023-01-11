@@ -4,7 +4,7 @@ import {Cell} from './Cell';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router';
 import {Box, Button, Grid, Stack} from "@mui/material";
-const socket = io('http://localhost:5000');
+const socket = io('https://tic-tac-toe-backend-pi.vercel.app');
 
 const combinations = [
     [0, 1, 2],
@@ -34,10 +34,6 @@ function Game({name, roomNumber, isJoined}: {name: string, roomNumber: string, i
   const [game, setGame] = useState(Array(9).fill(''));
   const [turnNumber, setTurnNumber] = useState(0);
   const [winner, setWinner] = useState(false);
-
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
-    // const paramsRoom = params.get('room');
 
     const [room, setRoom] = useState('');
 
@@ -108,7 +104,6 @@ function Game({name, roomNumber, isJoined}: {name: string, roomNumber: string, i
             setMyTurn(false);
         } else {
             // player 1
-            // const newRoomName = random();
             socket.emit('create', roomNumber);
             setRoom(roomNumber);
             setMyTurn(true);
