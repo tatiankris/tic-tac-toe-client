@@ -2,9 +2,8 @@ import React, {useEffect, useState} from 'react';
 import s from './App.module.css';
 import {Cell} from './Cell';
 import io from 'socket.io-client';
-import { useLocation } from 'react-router';
 import {Box, Button, Grid, Stack} from "@mui/material";
-const socket = io('https://tic-tac-toe-backend-pi.vercel.app');
+const socket = io('https://tic-tac-toe-back-yb4m.onrender.com');
 
 const combinations = [
     [0, 1, 2],
