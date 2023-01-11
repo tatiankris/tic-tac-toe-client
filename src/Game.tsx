@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import s from './App.module.css';
-import { Box } from './Box';
+import {Cell} from './Cell';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router';
+import {Box, Button, Grid, Stack} from "@mui/material";
 const socket = io('http://localhost:5000');
 
 const combinations = [
@@ -116,40 +117,51 @@ function Game({name, roomNumber, isJoined}: {name: string, roomNumber: string, i
 
 
   return (
-      <div className={s.container}>
+      <Stack className={s.gameContainer}>
+          <Box className={s.box}>
+              <div className={s.winner}>
 
-          <div>
-              player: {name}
+              {winner ? <span>We have a winner: {player}</span> : turnNumber === 9 ? <span style={{color: '#a8b7f2'}}>It's a tie!</span> :
+                  <br/>}
+                  {winner || turnNumber === 9 ? (
+
+                      <Button color={winner ? 'success' : 'primary'} variant={'contained'} sx={{width: '110px'}} onClick={sendRestart}>
+                          Restart
+                      </Button>
+                  ) : null}
           </div>
-          room: {room}
-          <br />
-          <br />
-          {hasOpponent ? '' : 'Waiting for opponent...'}
-          <p>
-              {winner || turnNumber === 9 ? (
-                  <button className="btn" onClick={sendRestart}>
-                      Restart
-                  </button>
-              ) : null}
-              {winner ? <span>We have a winner: {player}</span> : turnNumber === 9 ? <span>It's a tie!</span> : <br />}
-          </p>
+              <div>
+                <span style={{color: '#468080', fontSize: '30px', fontWeight: 'bold'}}>PLAYER: </span>
+                  <span style={{color: '#656066', fontSize: '18px', fontWeight: 'bold'}}>{name}</span>
+              </div>
+              <div>
+              <span style={{color: '#9b6d9e', fontSize: '30px', fontWeight: 'bold'}}>ROOM: </span>
+                  <span style={{color: '#656066', fontSize: '18px', fontWeight: 'bold'}}>{room}</span>
+              </div>
+              <div style={{ marginTop: '10px',color: '#6d7b9e', fontSize: '18px', fontStyle: 'italic'}}>
+                  {hasOpponent ? '' : 'Waiting for opponent...'}
+              </div>
 
-        <div className={s.row}>
-          <Box index={0} turn={turn} value={game[0]} />
-          <Box index={1} turn={turn} value={game[1]} />
-          <Box index={2} turn={turn} value={game[2]} />
-        </div>
-        <div className={s.row}>
-          <Box index={3} turn={turn} value={game[3]} />
-          <Box index={4} turn={turn} value={game[4]} />
-          <Box index={5} turn={turn} value={game[5]} />
-        </div>
-        <div className={s.row}>
-          <Box index={6} turn={turn} value={game[6]} />
-          <Box index={7} turn={turn} value={game[7]} />
-          <Box index={8} turn={turn} value={game[8]} />
-        </div>
-      </div>
+          </Box>
+          <Box className={s.box}>
+              <div className={s.row}>
+                  <Cell index={0} turn={turn} value={game[0]}/>
+                  <Cell index={1} turn={turn} value={game[1]}/>
+                  <Cell index={2} turn={turn} value={game[2]}/>
+              </div>
+              <div className={s.row}>
+                  <Cell index={3} turn={turn} value={game[3]}/>
+                  <Cell index={4} turn={turn} value={game[4]}/>
+                  <Cell index={5} turn={turn} value={game[5]}/>
+              </div>
+              <div className={s.row}>
+                  <Cell index={6} turn={turn} value={game[6]}/>
+                  <Cell index={7} turn={turn} value={game[7]}/>
+                  <Cell index={8} turn={turn} value={game[8]}/>
+              </div>
+          </Box>
+
+      </Stack>
   );
 }
 

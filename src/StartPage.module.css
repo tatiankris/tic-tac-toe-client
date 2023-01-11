@@ -1,0 +1,26 @@
+.startPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.title {
+    margin-bottom: 8px;
+    color: #4a6868;
+
+}
+
+.input {
+    margin-bottom: 4px;
+
+}
+.box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+

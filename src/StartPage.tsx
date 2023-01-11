@@ -1,4 +1,6 @@
+import {Button, Stack, TextField, Box, Typography} from '@mui/material';
 import React from 'react';
+import s from './StartPage.module.css'
 
 type Props = {
     name: string
@@ -35,18 +37,25 @@ function StartPage ({setName, name, setInRoom, setRoomNumber, setIsJoined, roomN
         }
     }
 
-    return (
-        <div>
-            <p>Start the game</p>
-            <input onChange={handleChangeName} placeholder={'Enter your name'} />
-            <input onChange={handleChangeRoomNumber} placeholder={'Enter game room number'} />
-            <button onClick={handleInRoom}>start</button>
+    const style = {
+        marginBottom: '4px'
+    }
 
-            <p>Join to game</p>
-            <input onChange={handleChangeName}  placeholder={'Enter your name'} />
-            <input onChange={handleChangeRoomNumber} placeholder={'Enter game room number'} />
-            <button onClick={handleInRoomJoined}>join</button>
-        </div>
+    return (
+        <Stack direction={"column"} spacing={10} className={s.startPage}>
+            <Box className={s.box}>
+                <Typography variant={'h4'} component="h2" className={s.title}>Start the game</Typography>
+                <TextField  size="small"  onChange={handleChangeName} placeholder={'Enter your name'} sx={style}/>
+                <TextField  size="small"  onChange={handleChangeRoomNumber} placeholder={'Enter game room number'} sx={style} />
+                <Button color="success" variant="contained" onClick={handleInRoom}>start</Button>
+            </Box>
+            <Box className={s.box}>
+            <Typography variant={'h4'} className={s.title}>Join to game</Typography>
+            <TextField size="small"  onChange={handleChangeName}  placeholder={'Enter your name'} sx={style} />
+            <TextField  size="small" onChange={handleChangeRoomNumber} placeholder={'Enter game room number'} sx={style} />
+            <Button color="secondary" variant="contained" onClick={handleInRoomJoined}>join</Button>
+            </Box>
+        </Stack>
 
     )
 }
