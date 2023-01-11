@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import s from './App.module.css';
 import {Cell} from './Cell';
 import io from 'socket.io-client';
-import {Box, Button, Grid, Stack} from "@mui/material";
+import {Box, Button, Modal, Stack} from "@mui/material";
 const socket = io('https://tic-tac-toe-back-yb4m.onrender.com');
 
 const combinations = [
@@ -113,6 +113,10 @@ function Game({name, roomNumber, isJoined}: {name: string, roomNumber: string, i
   return (
       <Stack className={s.gameContainer}>
           <Box className={s.box}>
+              <Modal
+                  sx={{backgroundColor: 'rgba(43,43,43,0.71)'}}
+                  open={winner || turnNumber === 9}
+              >
               <div className={s.winner}>
 
               {winner ? <span>We have a winner: {player}</span> : turnNumber === 9 ? <span style={{color: '#a8b7f2'}}>It's a tie!</span> :
@@ -124,6 +128,7 @@ function Game({name, roomNumber, isJoined}: {name: string, roomNumber: string, i
                       </Button>
                   ) : null}
           </div>
+              </Modal>
               <div>
                 <span style={{color: '#468080', fontSize: '30px', fontWeight: 'bold'}}>PLAYER: </span>
                   <span style={{color: '#656066', fontSize: '18px', fontWeight: 'bold'}}>{name}</span>

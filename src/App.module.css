@@ -29,20 +29,17 @@
   text-align: center;
 }
 .winner {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 
+  height: 100vh;
   font-weight: bold;
   width: 100%;
   font-size: 44px;
 
-  color: #3fcb18;
+  color: #67f544;
 }
 
